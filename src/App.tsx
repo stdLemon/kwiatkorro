@@ -1,5 +1,5 @@
 import { routeTree } from "./routeTree.gen";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { RouterProvider, createRouter, rewriteBasepath } from "@tanstack/react-router";
 import React from "react";
 
 declare module "@tanstack/react-router" {
@@ -18,6 +18,7 @@ declare module "@tanstack/react-router" {
 }
 // Create a new router instance
 const router = createRouter({
+    rewrite: rewriteBasepath({ basepath: "/kwiatkorro" }),
     routeTree,
 });
 
