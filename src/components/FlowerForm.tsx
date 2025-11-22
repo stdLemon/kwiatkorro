@@ -51,10 +51,24 @@ function FlowerAvatar({ defaultImageUrl, readonly }: FlowerAvatarProps) {
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
-        if (!file) return;
+        if (!file) {
+            return;
+        }
+
         const fileUrl = URL.createObjectURL(file);
+        if (preview) {
+            URL.revokeObjectURL(preview);
+        }
         setPreview(fileUrl);
     }
+
+    React.useEffect(() => {
+        return () => {
+            if (preview) {
+                URL.revokeObjectURL(preview);
+            }
+        };
+    }, [preview]);
 
     function handleImageOnClick() {
         if (readonly) {

@@ -70,7 +70,11 @@ export function useFlowersReducer() {
 
     function removeFlower(flowerId: number) {
         flowerStorage.remove(flowerId).then(() => {
+            const flower = getById(flowerId);
             disptach({ type: "delete", id: flowerId });
+            if (flower?.imageUrl) {
+                URL.revokeObjectURL(flower.imageUrl);
+            }
         });
     }
 
@@ -85,6 +89,12 @@ export function useFlowersReducer() {
         }
         const merged = { ...curr, ...flowerPatch };
 
+        if (flowerPatch.image) {
+            const oldFlower = getById(flowerPatch.id);
+            if (oldFlower?.imageUrl) {
+                URL.revokeObjectURL(oldFlower.imageUrl);
+            }
+        }
         await flowerStorage.update(merged);
         disptach({ type: "update", flower: merged });
     }
