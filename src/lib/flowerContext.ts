@@ -62,7 +62,7 @@ export function useFlowersReducer() {
         });
     }, []);
 
-    function addFlower(flower: Omit<FlowerRecord, "id">) {
+    function addFlower(flower: FlowerRecord) {
         flowerStorage.add(flower).then((flowerId) => {
             disptach({ type: "create", flower: { ...flower, id: flowerId } });
         });

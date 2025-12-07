@@ -46,11 +46,10 @@ async function get(id: number): Promise<FlowerRecord | undefined> {
     return flower as FlowerRecord | undefined;
 }
 
-async function add(flower: Omit<FlowerRecord, "id" | "archivedAt">) {
+async function add(flower: FlowerRecord) {
     const db = await getDB();
-    const newFlower: Omit<FlowerRecord, "id"> = {
-        ...flower,
-    };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, ...newFlower } = flower;
     return await db.add("flowers", newFlower);
 }
 
